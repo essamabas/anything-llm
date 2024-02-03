@@ -44,4 +44,12 @@ export const DATA_CONNECTORS = {
       "Import the transcription of an entire YouTube video from a link.",
     link: "https://youtube.com",
   },
+  Confluence: {
+    name: "Confluence Space",
+    path: paths.settings.dataConnectors.Confluence(),
+    image: ConnectorImages.Confluence,
+    description:
+      "Import the Confluence Space knowledge base that primarily handles content management activities",
+    link: "confluence.auto.continental.cloud",
+  },
 };

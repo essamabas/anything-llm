@@ -30,6 +30,7 @@ export default function DataConnectors() {
             <div className="py-4 w-full flex md:flex-wrap overflow-x-scroll gap-4 max-w-full">
               <DataConnectorOption slug="github" />
               <DataConnectorOption slug="youtube-transcript" />
+              <DataConnectorOption slug="Confluence" />
             </div>
           </div>
         </div>

@@ -3,10 +3,12 @@ import { lazy } from "react";
 import { useParams } from "react-router-dom";
 const Github = lazy(() => import("./Github"));
 const YouTubeTranscript = lazy(() => import("./Youtube"));
+const Confluence = lazy(() => import("./Confluence"));
 
 const CONNECTORS = {
   github: Github,
   "youtube-transcript": YouTubeTranscript,
+  Confluence: Confluence,
 };
 
 export default function DataConnectorSetup() {

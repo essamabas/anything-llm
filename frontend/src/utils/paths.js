@@ -103,6 +103,9 @@ export default {
       youtubeTranscript: () => {
         return "/settings/data-connectors/youtube-transcript";
       },
+      Confluence: () => {
+        return "/settings/data-connectors/Confluence";
+      },      
     },
   },
 };
