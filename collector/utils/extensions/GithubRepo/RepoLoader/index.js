@@ -14,6 +14,13 @@ class RepoLoader {
   #validGithubUrl() {
     const UrlPattern = require("url-pattern");
     const pattern = new UrlPattern("https\\://github.com/(:author)/(:project)");
+    // Define a list of valid GitHub server domains (add more as needed)
+    //const validServerDomains = ["github.com", "github.example.com", "your-custom-github-server.com"];
+
+    // Create a regular expression pattern that matches valid GitHub URLs
+    //const pattern = new RegExp(
+    //  `^https://(?:${validServerDomains.join("|")})/(?::author)/(?::project)$`
+    //);
     const match = pattern.match(this.repo);
     if (!match) return false;
 

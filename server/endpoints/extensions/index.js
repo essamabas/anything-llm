@@ -43,6 +43,29 @@ function extensionEndpoints(app) {
           type: "github_repo",
         });
         response.status(200).json(responseFromProcessor);
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+        response.sendStatus(500).end();
+      }
+    }
+  );
+
+  app.post(
+    "/ext/confluence/space",
+    [validatedRequest, flexUserRoleValid([ROLES.admin, ROLES.manager])],
+    async (request, response) => {
+      try {
+        const responseFromProcessor = await forwardExtensionRequest({
+          endpoint: "/ext/confluence-space",
+          method: "POST",
+          body: request.body,
+        });
+        await Telemetry.sendTelemetry("extension_invoked", {
+          type: "confluence_space",
+        });
+        response.status(200).json(responseFromProcessor);
+        console.log(response);
       } catch (e) {
         console.error(e);
         response.sendStatus(500).end();

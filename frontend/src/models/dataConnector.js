@@ -61,32 +61,11 @@ const DataConnector = {
     },
   },
   Confluence: {
-    branches: async ({ repo, accessToken }) => {
-      return await fetch(`${API_BASE}/ext/confluence/branches`, {
+    collect: async function ({ baseUrl, spaceKey, accessToken}) {
+      return await fetch(`${API_BASE}/ext/confluence/space`, {
         method: "POST",
         headers: baseHeaders(),
-        cache: "force-cache",
-        body: JSON.stringify({ repo, accessToken }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (!res.success) throw new Error(res.reason);
-          return res.data;
-        })
-        .then((data) => {
-          return { branches: data?.branches || [], error: null };
-        })
-        .catch((e) => {
-          console.error(e);
-          showToast(e.message, "error");
-          return { branches: [], error: e.message };
-        });
-    },
-    collect: async function ({ repo, accessToken, branch, ignorePaths = [] }) {
-      return await fetch(`${API_BASE}/ext/github/repo`, {
-        method: "POST",
-        headers: baseHeaders(),
-        body: JSON.stringify({ repo, accessToken, branch, ignorePaths }),
+        body: JSON.stringify({ baseUrl, spaceKey, accessToken}),
       })
         .then((res) => res.json())
         .then((res) => {

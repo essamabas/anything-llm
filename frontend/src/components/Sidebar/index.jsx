@@ -80,21 +80,6 @@ export default function Sidebar() {
                   >
                     <GithubLogo weight="fill" className="h-5 w-5 " />
                   </a>
-                  <a
-                    href={paths.docs()}
-                    className="transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border"
-                  >
-                    <BookOpen weight="fill" className="h-5 w-5 " />
-                  </a>
-                  <a
-                    href={paths.discord()}
-                    className="transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border"
-                  >
-                    <DiscordLogo
-                      weight="fill"
-                      className="h-5 w-5 stroke-slate-200 group-hover:stroke-slate-200"
-                    />
-                  </a>
                   {/* <button className="invisible transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border">
                     <DotsThree className="h-5 w-5 group-hover:stroke-slate-200" />
                   </button> */}
@@ -223,21 +208,6 @@ export function SidebarMobileHeader() {
                       className="transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border"
                     >
                       <GithubLogo weight="fill" className="h-5 w-5 " />
-                    </a>
-                    <a
-                      href={paths.docs()}
-                      className="transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border"
-                    >
-                      <BookOpen weight="fill" className="h-5 w-5 " />
-                    </a>
-                    <a
-                      href={paths.discord()}
-                      className="transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border"
-                    >
-                      <DiscordLogo
-                        weight="fill"
-                        className="h-5 w-5 stroke-slate-200 group-hover:stroke-slate-200"
-                      />
                     </a>
                     {/* <button className="invisible transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border">
                     <DotsThree className="h-5 w-5 group-hover:stroke-slate-200" />
