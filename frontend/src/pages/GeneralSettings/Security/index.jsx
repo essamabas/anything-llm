@@ -268,7 +268,7 @@ function PasswordProtection() {
             )}
           </div>
           <p className="text-sm font-base text-white text-opacity-60">
-            Protect your AnythingLLM instance with a password. If you forget
+            Protect your instance with a password. If you forget
             this there is no recovery method so ensure you save this password.
           </p>
         </div>

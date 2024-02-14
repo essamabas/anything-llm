@@ -1,6 +1,6 @@
 import PreLoader from "@/components/Preloader";
 import System from "@/models/system";
-import AnythingLLMIcon from "@/media/logo/anything-llm-icon.png";
+import ContiIcon from "@/media/logo/anything-llm-icon.png";
 import OpenAiLogo from "@/media/llmprovider/openai.png";
 import AzureOpenAiLogo from "@/media/llmprovider/azure.png";
 import AnthropicLogo from "@/media/llmprovider/anthropic.png";
@@ -84,7 +84,7 @@ const LLM_SELECTION_PRIVACY = {
     description: [
       "Your model and chats are only accessible on this AnythingLLM instance",
     ],
-    logo: AnythingLLMIcon,
+    logo: ContiIcon,
   },
   togetherai: {
     name: "TogetherAI",
@@ -158,7 +158,7 @@ const VECTOR_DB_PRIVACY = {
   lancedb: {
     name: "LanceDB",
     description: [
-      "Your vectors and document text are stored privately on this instance of AnythingLLM",
+      "Your vectors and document text are stored privately on this instance",
     ],
     logo: LanceDbLogo,
   },
@@ -166,11 +166,11 @@ const VECTOR_DB_PRIVACY = {
 
 const EMBEDDING_ENGINE_PRIVACY = {
   native: {
-    name: "AnythingLLM Embedder",
+    name: "Built-In Embedder",
     description: [
-      "Your document text is embedded privately on this instance of AnythingLLM",
+      "Your document text is embedded privately on this instance",
     ],
-    logo: AnythingLLMIcon,
+    logo: ContiIcon,
   },
   openai: {
     name: "OpenAI",

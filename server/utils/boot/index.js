@@ -1,16 +1,48 @@
 const { Telemetry } = require("../../models/telemetry");
 const setupTelemetry = require("../telemetry");
+const fs = require("fs");
+const https = require("https");
+const path = require('path');
+
+
+function getCertificates(directoryPath) {
+  // Replace with the actual directory path
+  const fullPath = path.resolve(directoryPath); // Ensure absolute path
+
+  try {
+    const files = fs.readdirSync(fullPath);
+    const caFiles = files.filter(file => file.endsWith('.crt'));
+
+    const caStructure = [];
+    caFiles.forEach(file => {
+      const filePath = path.join(fullPath, file);
+      caStructure.push(fs.readFileSync(filePath));
+    });
+
+    return caStructure; // Return the constructed structure
+  } catch (error) {
+    console.error('Error reading directory:', error);
+    return null; // Or throw an error if appropriate
+  }
+}
 
 function bootSSL(app, port = 3001) {
   try {
     console.log(
       `\x1b[33m[SSL BOOT ENABLED]\x1b[0m Loading the certificate and key for HTTPS mode...`
     );
-    const fs = require("fs");
-    const https = require("https");
-    const privateKey = fs.readFileSync(process.env.HTTPS_KEY_PATH);
-    const certificate = fs.readFileSync(process.env.HTTPS_CERT_PATH);
-    const credentials = { key: privateKey, cert: certificate };
+
+    const CertPath = process.env.HTTPS_CERT_PATH;  // Replace with the actual directory path
+    console.log(`[BOOT]: CertPath ${CertPath} `);
+
+    //const privateKey = fs.readFileSync(process.env.HTTPS_KEY_PATH);
+    const privateKey = '';
+    // Add your Certificate under
+    //const certificate = fs.readFileSync(process.env.HTTPS_CERT_PATH);
+    const certificate = getCertificates(CertPath);
+
+     console.log(`[BOOT]: certificate ${certificate} `);
+     const credentials = { key: privateKey, cert: certificate };     
 
     https
       .createServer(credentials, app)

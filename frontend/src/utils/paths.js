@@ -45,8 +45,8 @@ export default {
   docs: () => {
     return "https://docs.useanything.com";
   },
-  mailToMintplex: () => {
-    return "mailto:team@mintplexlabs.com";
+  mailToContiIRA: () => {
+    return "mailto:team@contiira.com";
   },
   hosting: () => {
     return "https://my.mintplexlabs.com/aio-checkout?product=anythingllm";

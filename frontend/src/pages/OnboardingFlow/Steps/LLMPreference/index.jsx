@@ -8,7 +8,7 @@ import OllamaLogo from "@/media/llmprovider/ollama.png";
 import LMStudioLogo from "@/media/llmprovider/lmstudio.png";
 import LocalAiLogo from "@/media/llmprovider/localai.png";
 import TogetherAILogo from "@/media/llmprovider/togetherai.png";
-import AnythingLLMIcon from "@/media/logo/anything-llm-icon.png";
+import ContiIcon from "@/media/logo/anything-llm-icon.png";
 import MistralLogo from "@/media/llmprovider/mistral.jpeg";
 import OpenAiOptions from "@/components/LLMSelection/OpenAiOptions";
 import AzureAiOptions from "@/components/LLMSelection/AzureAiOptions";
@@ -28,7 +28,7 @@ import TogetherAiOptions from "@/components/LLMSelection/TogetherAiOptions";
 
 const TITLE = "LLM Preference";
 const DESCRIPTION =
-  "AnythingLLM can work with many LLM providers. This will be the service which handles chatting.";
+  "Conti. IRA can work with many LLM providers. This will be the service which handles chatting.";
 
 export default function LLMPreference({
   setHeader,
@@ -121,10 +121,10 @@ export default function LLMPreference({
     {
       name: "Native",
       value: "native",
-      logo: AnythingLLMIcon,
+      logo: ContiIcon,
       options: <NativeLLMOptions settings={settings} />,
       description:
-        "Use a downloaded custom Llama model for chatting on this AnythingLLM instance.",
+        "Use a downloaded custom Llama model for chatting on this instance.",
     },
   ];
 

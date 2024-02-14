@@ -1,6 +1,6 @@
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState, useRef } from "react";
-import AnythingLLMIcon from "@/media/logo/anything-llm-icon.png";
+import ContiIcon from "@/media/logo/anything-llm-icon.png";
 import OpenAiLogo from "@/media/llmprovider/openai.png";
 import AzureOpenAiLogo from "@/media/llmprovider/azure.png";
 import LocalAiLogo from "@/media/llmprovider/localai.png";
@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const TITLE = "Embedding Preference";
 const DESCRIPTION =
-  "AnythingLLM can work with many embedding models. This will be the model which turns documents into vectors.";
+  "Conti. IRA can work with many embedding models. This will be the model which turns documents into vectors.";
 
 export default function EmbeddingPreference({
   setHeader,
@@ -42,12 +42,12 @@ export default function EmbeddingPreference({
 
   const EMBEDDERS = [
     {
-      name: "AnythingLLM Embedder",
+      name: "Built-In Embedder",
       value: "native",
-      logo: AnythingLLMIcon,
+      logo: ContiIcon,
       options: <NativeEmbeddingOptions settings={settings} />,
       description:
-        "Use the built-in embedding engine for AnythingLLM. Zero setup!",
+        "Use the built-in embedding engine. Zero setup!",
     },
     {
       name: "OpenAI",

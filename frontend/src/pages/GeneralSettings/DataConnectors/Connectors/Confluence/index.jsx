@@ -8,16 +8,16 @@ import showToast from "@/utils/toast";
 import pluralize from "pluralize";
 import { TagsInput } from "react-tag-input-component";
 
-const DEFAULT_BRANCHES = ["main", "master"];
 export default function ConfluenceConnectorSetup() {
-  const { image } = DATA_CONNECTORS.confluence;
+  const { image } = DATA_CONNECTORS.Confluence;
   const [loading, setLoading] = useState(false);
-  const [repo, setRepo] = useState(null);
+  const [baseUrl, setbaseUrl] = useState(null);
+  const [spaceKey, setSpaceKey] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [ignores, setIgnores] = useState([]);
 
   const [settings, setSettings] = useState({
-    repo: null,
+    baseUrl: null,
+    spaceKey: null,
     accessToken: null,
   });
 
@@ -28,15 +28,14 @@ export default function ConfluenceConnectorSetup() {
     try {
       setLoading(true);
       showToast(
-        "Fetching all files for repo - this may take a while.",
+        "Fetching all pages in Space - this may take a while.",
         "info",
         { clear: true, autoClose: false }
       );
-      const { data, error } = await System.dataConnectors.confluence.collect({
-        repo: form.get("repo"),
+      const { data, error } = await System.dataConnectors.Confluence.collect({
+        baseUrl: form.get("baseUrl"),
+        spaceKey: form.get("spaceKey"),
         accessToken: form.get("accessToken"),
-        branch: form.get("branch"),
-        ignorePaths: ignores,
       });
 
       if (!!error) {
@@ -48,7 +47,7 @@ export default function ConfluenceConnectorSetup() {
       showToast(
         `${data.files} ${pluralize("file", data.files)} collected from ${
           data.author
-        }/${data.repo}:${data.branch}. Output folder is ${data.destination}.`,
+        }/${data.baseUrl}:${data.spaceKey}. Output folder is ${data.destination}.`,
         "success",
         { clear: true }
       );
@@ -77,12 +76,12 @@ export default function ConfluenceConnectorSetup() {
               <div className="w-full flex flex-col gap-y-1">
                 <div className="items-center flex gap-x-4">
                   <p className="text-2xl font-semibold text-white">
-                    Import GitHub Repository
+                    Import Confluence Space
                   </p>
                 </div>
                 <p className="text-sm font-base text-white text-opacity-60">
-                  Import all files from a public or private Confluence repository
-                  and have its files be available in your workspace.
+                  Import all pages from a public or private Confluence Space
+                  and have its information available in your workspace.
                 </p>
               </div>
             </div>
@@ -94,20 +93,20 @@ export default function ConfluenceConnectorSetup() {
                     <div className="flex items-center gap-x-2">
                       <Info size={20} className="shrink-0 text-blue-400" />
                       <p className="text-blue-400 text-sm">
-                        Trying to collect a GitHub repo without a{" "}
+                        Accessing a Confluence with a{" "}
                         <a
-                          href="https://docs.confluence.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens"
+                          href="https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html"
                           rel="noreferrer"
                           target="_blank"
                           className="underline"
                         >
                           Personal Access Token
                         </a>{" "}
-                        will fail to collect all files due to GitHub API limits.
+                         is a secure way to use scripts and integrate external applications.
                       </p>
                     </div>
                     <a
-                      href="https://confluence.com/settings/personal-access-tokens/new"
+                      href="https://confluence.auto.continental.cloud/plugins/personalaccesstokens/usertokens.action"
                       rel="noreferrer"
                       target="_blank"
                       className="text-blue-400 hover:underline"
@@ -124,34 +123,52 @@ export default function ConfluenceConnectorSetup() {
                   <div className="flex flex-col w-60">
                     <div className="flex flex-col gap-y-1 mb-4">
                       <label className="text-white text-sm font-semibold block">
-                        GitHub Repo URL
+                        Confluence Base URL
                       </label>
                       <p className="text-xs text-zinc-300">
-                        Url of the GitHub repo you wish to collect.
+                        Url of the Confluence Base URL wish to collect.
                       </p>
                     </div>
                     <input
                       type="url"
-                      name="repo"
+                      name="baseUrl"
                       className="bg-zinc-900 text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white block w-full p-2.5"
-                      placeholder="https://confluence.com/Mintplex-Labs/anything-llm"
+                      placeholder="https://confluence.auto.continental.cloud/"
                       required={true}
                       autoComplete="off"
-                      onChange={(e) => setRepo(e.target.value)}
-                      onBlur={() => setSettings({ ...settings, repo })}
+                      onChange={(e) => setbaseUrl(e.target.value)}
+                      onBlur={() => setSettings({ ...settings, baseUrl })}
                       spellCheck={false}
                     />
                   </div>
                   <div className="flex flex-col w-60">
                     <div className="flex flex-col gap-y-1 mb-4">
                       <label className="text-white text-sm block flex gap-x-2 items-center">
-                        <p className="font-semibold ">Confluence Access Token</p>{" "}
-                        <p className="text-xs text-zinc-300 font-base!">
-                          <i>optional</i>
-                        </p>
+                        <p className="font-semibold ">Confluence Space Key</p>{" "}
                       </label>
                       <p className="text-xs text-zinc-300 flex gap-x-2">
-                        Access Token to prevent rate limiting.
+                        Confluence Space Key.
+                      </p>
+                    </div>
+                    <input
+                      type="text"
+                      name="spaceKey"
+                      className="bg-zinc-900 text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white block w-full p-2.5"
+                      placeholder="department0443"
+                      required={true}
+                      autoComplete="off"
+                      spellCheck={false}
+                      onChange={(e) => setSpaceKey(e.target.value)}
+                      onBlur={() => setSettings({ ...settings, spaceKey })}
+                    />
+                  </div>                  
+                  <div className="flex flex-col w-60">
+                    <div className="flex flex-col gap-y-1 mb-4">
+                      <label className="text-white text-sm block flex gap-x-2 items-center">
+                        <p className="font-semibold ">Confluence Access Token</p>{" "}
+                      </label>
+                      <p className="text-xs text-zinc-300 flex gap-x-2">
+                        Personal Access Token.
                       </p>
                     </div>
                     <input
@@ -159,40 +176,13 @@ export default function ConfluenceConnectorSetup() {
                       name="accessToken"
                       className="bg-zinc-900 text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white block w-full p-2.5"
                       placeholder="confluence_pat_1234_abcdefg"
-                      required={false}
+                      required={true}
                       autoComplete="off"
                       spellCheck={false}
                       onChange={(e) => setAccessToken(e.target.value)}
                       onBlur={() => setSettings({ ...settings, accessToken })}
                     />
                   </div>
-                  <GitHubBranchSelection
-                    repo={settings.repo}
-                    accessToken={settings.accessToken}
-                  />
-                </div>
-
-                <div className="flex flex-col w-1/2 py-4">
-                  <div className="flex flex-col gap-y-1 mb-4">
-                    <label className="text-white text-sm block flex gap-x-2 items-center">
-                      <p className="font-semibold ">File Ignores</p>
-                    </label>
-                    <p className="text-xs text-zinc-300 flex gap-x-2">
-                      List in .gitignore format to ignore specific files during
-                      collection. Press enter after each entry you want to save.
-                    </p>
-                  </div>
-                  <TagsInput
-                    value={ignores}
-                    onChange={setIgnores}
-                    name="ignores"
-                    placeholder="!*.js, images/*, .DS_Store, bin/*"
-                    classNames={{
-                      tag: "bg-blue-300/10 text-zinc-800 m-1",
-                      input:
-                        "flex bg-zinc-900 text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white p-2.5",
-                    }}
-                  />
                 </div>
               </div>
 
@@ -204,11 +194,11 @@ export default function ConfluenceConnectorSetup() {
                 >
                   {loading
                     ? "Collecting files..."
-                    : "Collect all files from GitHub repo"}
+                    : "Collect all pages from Confluence Space"}
                 </button>
                 {loading && (
                   <p className="text-xs text-zinc-300">
-                    Once complete, all files will be available for embedding
+                    Once complete, all pages will be available for embedding
                     into workspaces in the document picker.
                   </p>
                 )}
@@ -221,74 +211,4 @@ export default function ConfluenceConnectorSetup() {
   );
 }
 
-function GitHubBranchSelection({ repo, accessToken }) {
-  const [allBranches, setAllBranches] = useState(DEFAULT_BRANCHES);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchAllBranches() {
-      if (!repo) {
-        setAllBranches(DEFAULT_BRANCHES);
-        setLoading(false);
-        return;
-      }
-
-      setLoading(true);
-      const { branches } = await System.dataConnectors.confluence.branches({
-        repo,
-        accessToken,
-      });
-      setAllBranches(branches.length > 0 ? branches : DEFAULT_BRANCHES);
-      setLoading(false);
-    }
-    fetchAllBranches();
-  }, [repo, accessToken]);
-
-  if (loading) {
-    return (
-      <div className="flex flex-col w-60">
-        <div className="flex flex-col gap-y-1 mb-4">
-          <label className="text-white text-sm font-semibold block">
-            Branch
-          </label>
-          <p className="text-xs text-zinc-300">
-            Branch you wish to collect files of
-          </p>
-        </div>
-        <select
-          name="branch"
-          required={true}
-          className="bg-zinc-900 border border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
-        >
-          <option disabled={true} selected={true}>
-            -- loading available models --
-          </option>
-        </select>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col w-60">
-      <div className="flex flex-col gap-y-1 mb-4">
-        <label className="text-white text-sm font-semibold block">Branch</label>
-        <p className="text-xs text-zinc-300">
-          Branch you wish to collect files of
-        </p>
-      </div>
-      <select
-        name="branch"
-        required={true}
-        className="bg-zinc-900 border border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
-      >
-        {allBranches.map((branch) => {
-          return (
-            <option key={branch} value={branch}>
-              {branch}
-            </option>
-          );
-        })}
-      </select>
-    </div>
-  );
-}

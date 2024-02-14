@@ -3,7 +3,7 @@ import Sidebar, { SidebarMobileHeader } from "@/components/SettingsSidebar";
 import { isMobile } from "react-device-detect";
 import System from "@/models/system";
 import showToast from "@/utils/toast";
-import AnythingLLMIcon from "@/media/logo/anything-llm-icon.png";
+import ContiIcon from "@/media/logo/anything-llm-icon.png";
 import OpenAiLogo from "@/media/llmprovider/openai.png";
 import AzureOpenAiLogo from "@/media/llmprovider/azure.png";
 import AnthropicLogo from "@/media/llmprovider/anthropic.png";
@@ -146,10 +146,10 @@ export default function GeneralLLMPreference() {
     {
       name: "Native",
       value: "native",
-      logo: AnythingLLMIcon,
+      logo: ContiIcon,
       options: <NativeLLMOptions settings={settings} />,
       description:
-        "Use a downloaded custom Llama model for chatting on this AnythingLLM instance.",
+        "Use a downloaded custom Llama model for chatting on this instance.",
     },
   ];
 
@@ -191,7 +191,7 @@ export default function GeneralLLMPreference() {
                 <p className="text-sm font-base text-white text-opacity-60">
                   These are the credentials and settings for your preferred LLM
                   chat & embedding provider. Its important these keys are
-                  current and correct or else AnythingLLM will not function
+                  current and correct or else instance will not function
                   properly.
                 </p>
               </div>
