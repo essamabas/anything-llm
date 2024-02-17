@@ -114,6 +114,7 @@ RUN cd ./server/ && yarn install --production --network-timeout 100000 && yarn c
 
 # Compile Llama.cpp bindings for node-llama-cpp for this operating system.
 USER root
+RUN echo 'root:root' | chpasswd
 RUN cd ./server && npx --no node-llama-cpp download
 USER anythingllm
 
