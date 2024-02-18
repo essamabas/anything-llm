@@ -8,6 +8,9 @@ import {
 import NewWorkspaceModal, {
   useNewWorkspaceModal,
 } from "../Modals/NewWorkspace";
+import NewAgentRequestModal, {
+  useNewAgentRequestModal,
+} from "../Modals/NewAgentRequest";
 import paths from "@/utils/paths";
 import { isMobile } from "react-device-detect";
 import { SidebarMobileHeader } from "../Sidebar";
@@ -27,6 +30,13 @@ export default function DefaultChatContainer() {
     showModal: showNewWsModal,
     hideModal: hideNewWsModal,
   } = useNewWorkspaceModal();
+
+  const {
+    agentShowing: showingNewAgentRequestModal,
+    showAgentModal: showNewAgentRequestModal,
+    hideAgentModal: hideNewAgentRequestModal,
+  } = useNewAgentRequestModal();
+
   const popMsg = !window.localStorage.getItem("anythingllm_intro");
 
   useEffect(() => {
@@ -162,6 +172,14 @@ export default function DefaultChatContainer() {
                 <br />
                 You can add and remove files at anytime.
               </span>
+
+                <button
+                  onClick={showNewAgentRequestModal}
+                  className="mt-5 w-fit transition-all duration-300 border border-slate-200 px-4 py-2 rounded-lg text-white text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 focus:ring-gray-800"
+                >
+                  <Plus className="h-4 w-4" />
+                  <p>Enter Your Agent Request</p>
+                </button>
 
               {(!user || user?.role !== "default") && (
                 <button
@@ -348,6 +366,8 @@ export default function DefaultChatContainer() {
             );
           })}
       {showingNewWsModal && <NewWorkspaceModal hideModal={hideNewWsModal} />}
+      {showingNewAgentRequestModal && <NewAgentRequestModal hideAgentModal={hideNewAgrentRequestModal} />}
+
     </div>
   );
 }

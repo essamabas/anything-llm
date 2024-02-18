@@ -8,12 +8,12 @@ import {
   Plus,
   List,
 } from "@phosphor-icons/react";
-import NewWorkspaceModal, {
-  useNewWorkspaceModal,
-} from "../Modals/NewWorkspace";
+import NewWorkspaceModal, { useNewWorkspaceModal, } from "../Modals/NewWorkspace";
+import NewAgentRequestModal, { useNewAgentRequestModal, } from "../Modals/NewAgentRequest";
 import ActiveWorkspaces from "./ActiveWorkspaces";
 import paths from "@/utils/paths";
 import { USER_BACKGROUND_COLOR } from "@/utils/constants";
+import { SquaresFour } from "@phosphor-icons/react";
 import useLogo from "@/hooks/useLogo";
 import useUser from "@/hooks/useUser";
 
@@ -26,6 +26,12 @@ export default function Sidebar() {
     showModal: showNewWsModal,
     hideModal: hideNewWsModal,
   } = useNewWorkspaceModal();
+
+  const {
+    agentShowing: showingNewAgentRequestModal,
+    showAgentModal: showNewAgentRequestModal,
+    hideAgentModal: hideNewAgentRequestModal,
+  } = useNewAgentRequestModal();
 
   return (
     <>
@@ -52,13 +58,47 @@ export default function Sidebar() {
             )}
           </div>
 
+
+
           {/* Primary Body */}
           <div className="flex-grow flex flex-col">
+			{/*workspace part*/}
             <div className="flex flex-col gap-y-2 pb-8 overflow-y-scroll no-scroll">
+
+
+ 		  {/* Jira Agent */}
+          <div className="flex gap-x-2 items-center justify-between" >
+            <a
+              className={`
+              transition-all duration-[200ms]
+                flex flex-grow w-[75%] gap-x-2 py-[6px] px-[12px] rounded-lg text-slate-200 justify-start items-center border
+                hover:bg-workspace-item-selected-gradient hover:border-slate-100 hover:border-opacity-50
+                bg-workspace-item-gradient bg-opacity-60 border-transparent
+                `}
+            >
+              <div className="flex flex-row justify-between w-full">
+                <button type="button" 
+                  onClick={showNewAgentRequestModal}
+                  className="rounded-md flex items-center justify-center text-white ml-auto"
+                >
+                <div className="flex items-center space-x-2">
+                  <SquaresFour weight={"regular"} className="h-5 w-5 flex-shrink-0" />
+                  <p className={`text-white text-sm leading-loose font-medium whitespace-nowrap overflow-hidden`} >
+				  "Jira Agent"
+                  </p>
+                </div>
+                </button>
+              </div>
+            </a>
+          </div>
+
+
+
+			  {/*add workspace button*/}
               <div className="flex gap-x-2 items-center justify-between">
                 {(!user || user?.role !== "default") && (
                   <button
-                    onClick={showNewWsModal}
+                    onClick={ showNewWsModal }
                     className="flex flex-grow w-[75%] h-[44px] gap-x-2 py-[5px] px-4 mb-2 bg-white rounded-lg text-sidebar justify-center items-center hover:bg-opacity-80 transition-all duration-300"
                   >
                     <Plus className="h-5 w-5" />
@@ -68,8 +108,11 @@ export default function Sidebar() {
                   </button>
                 )}
               </div>
+			  {/*generated workspace list*/}
               <ActiveWorkspaces />
             </div>
+
+
             <div className="flex flex-col flex-grow justify-end mb-2">
               {/* Footer */}
               <div className="flex justify-center mt-2">
@@ -90,6 +133,7 @@ export default function Sidebar() {
         </div>
       </div>
       {showingNewWsModal && <NewWorkspaceModal hideModal={hideNewWsModal} />}
+      {showingNewAgentRequestModal && <NewAgentRequestModal hideAgentModal={hideNewAgentRequestModal} />}
     </>
   );
 }
@@ -105,6 +149,12 @@ export function SidebarMobileHeader() {
     hideModal: hideNewWsModal,
   } = useNewWorkspaceModal();
   const { user } = useUser();
+
+  const {
+    agentShowing: showingNewAgentRequestModal,
+    showAgentModal: showNewAgentRequestModal,
+    hideAgentModal: hideNewAgentRequestModal,
+  } = useNewAgentRequestModal();
 
   useEffect(() => {
     // Darkens the rest of the screen
@@ -184,6 +234,7 @@ export function SidebarMobileHeader() {
                   className=" flex flex-col gap-y-4 pb-8 overflow-y-scroll no-scroll"
                 >
                   <div className="flex gap-x-2 items-center justify-between">
+	  	{/* new workspace button*/}
                     {(!user || user?.role !== "default") && (
                       <button
                         onClick={showNewWsModal}
@@ -211,7 +262,8 @@ export function SidebarMobileHeader() {
                     </a>
                     {/* <button className="invisible transition-all duration-300 p-2 rounded-full text-white bg-sidebar-button hover:bg-menu-item-selected-gradient hover:border-slate-100 hover:border-opacity-50 border-transparent border">
                     <DotsThree className="h-5 w-5 group-hover:stroke-slate-200" />
-                  </button> */}
+                  </button> 
+				  */}
                   </div>
                 </div>
               </div>
@@ -219,10 +271,12 @@ export function SidebarMobileHeader() {
           </div>
         </div>
         {showingNewWsModal && <NewWorkspaceModal hideModal={hideNewWsModal} />}
+        {showingNewAgentRequestModal && <NewAgentRequestModal hideAgentModal={hideNewAgentRequestModal} />}
       </div>
     </>
   );
 }
+
 
 function SettingsButton() {
   const { user } = useUser();
