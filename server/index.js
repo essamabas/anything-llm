@@ -16,6 +16,7 @@ const { inviteEndpoints } = require("./endpoints/invite");
 const { utilEndpoints } = require("./endpoints/utils");
 const { developerEndpoints } = require("./endpoints/api");
 const { extensionEndpoints } = require("./endpoints/extensions");
+const { agentEndpoints } = require("./endpoints/agents");
 const { bootHTTP, bootSSL } = require("./utils/boot");
 const app = express();
 const apiRouter = express.Router();
@@ -34,6 +35,7 @@ app.use(
 app.use("/api", apiRouter);
 systemEndpoints(apiRouter);
 extensionEndpoints(apiRouter);
+agentEndpoints(apiRouter);
 workspaceEndpoints(apiRouter);
 chatEndpoints(apiRouter);
 adminEndpoints(apiRouter);

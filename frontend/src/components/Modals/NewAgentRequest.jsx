@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { X } from "@phosphor-icons/react";
 //import Workspace from "@/models/workspace";
 import paths from "@/utils/paths";
+import System from "@/models/system";
 
 const noop = () => false;
 export default function NewAgentRequestModal({ hideAgentModal = noop }) {
@@ -10,18 +11,6 @@ export default function NewAgentRequestModal({ hideAgentModal = noop }) {
   const [msg, setMsg] = useState(null);
   const handleCreate = async (e) => {
   	console.log("received request");
-  	/*
-    setError(null);
-    e.preventDefault();
-    const data = {};
-    const form = new FormData(formEl.current);
-    for (var [key, value] of form.entries()) data[key] = value;
-    const { workspace, message } = await Workspace.new(data);
-    if (!!workspace) {
-      window.location.href = paths.workspace.chat(workspace.slug);
-    }
-    setError(message);
-	*/
   };
 
   return (
@@ -74,8 +63,11 @@ export default function NewAgentRequestModal({ hideAgentModal = noop }) {
 
           <div className="flex w-full justify-end items-center p-6 space-x-2 border-t border-white/10 rounded-b">
 		  <button
-		  	onClick = { (e) => {
-						console.log({msg});
+		  	onClick = { async (e) => {
+					  console.log("send jira request");
+					  const { data, error } = await System.Agents.Jira.request({
+						request: {msg},
+					  });
 					}
 				}
 			type="button"

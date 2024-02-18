@@ -1,6 +1,7 @@
 import { API_BASE, AUTH_TIMESTAMP, fullApiUrl } from "@/utils/constants";
 import { baseHeaders } from "@/utils/request";
 import DataConnector from "./dataConnector";
+import Agent from "./agent";
 
 const System = {
   ping: async function () {
@@ -426,6 +427,7 @@ const System = {
       });
   },
   dataConnectors: DataConnector,
+  Agents: Agent,
 };
 
 export default System;
