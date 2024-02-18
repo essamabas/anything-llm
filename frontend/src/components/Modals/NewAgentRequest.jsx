@@ -50,7 +50,7 @@ export default function NewAgentRequestModal({ hideAgentModal = noop }) {
                     id="prompt"
                     className="bg-zinc-900 w-full text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white block w-full p-2.5"
                     placeholder="My Prompt"
-                    required={true}
+                    required={false}
                     autoComplete="off"
                   />
                 </div>
