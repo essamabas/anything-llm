@@ -107,5 +107,13 @@ export default {
         return "/settings/data-connectors/Confluence";
       },      
     },
+    agentConnectors: {
+      list: () => {
+        return "/settings/agent-connectors";
+      },
+      jira: () => {
+        return "/settings/agent-connectors/jira";
+      },      
+    },    
   },
 };
