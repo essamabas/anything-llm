@@ -25,7 +25,21 @@ function chatEndpoints(app) {
       try {
         const user = await userFromSession(request, response);
         const { slug } = request.params;
-        const { message, mode = "query" } = reqBody(request);
+        const { message, mode = "query", agent } = reqBody(request);
+		console.log(reqBody(request));
+		console.log("agent is " + agent);
+
+		if( agent == 'jira' ) {
+			writeResponseChunk(response, {
+              id: uuidv4(),
+			  type: "textResponse",
+			  textResponse: "Heeeeeelllooo this message was intercepted and Jira agent is about to answer. COMMING SOON",
+			  sources: [],
+			  close: true,
+			  error: null,
+			});
+			return;
+		}
 
         const workspace = multiUserMode(response)
           ? await Workspace.getWithUser(user, { slug })
