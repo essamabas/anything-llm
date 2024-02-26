@@ -41,6 +41,12 @@ const DataConnectors = lazy(
 const DataConnectorSetup = lazy(
   () => import("@/pages/GeneralSettings/DataConnectors/Connectors")
 );
+const AgentConnectors = lazy(
+  () => import("@/pages/GeneralSettings/AgentConnectors")
+);
+const AgentConnectorSetup = lazy(
+  () => import("@/pages/GeneralSettings/AgentConnectors/Connectors")
+);
 
 export default function App() {
   return (
@@ -111,6 +117,14 @@ export default function App() {
                 path="/settings/data-connectors/:connector"
                 element={<ManagerRoute Component={DataConnectorSetup} />}
               />
+              <Route
+                path="/settings/agent-connectors"
+                element={<ManagerRoute Component={AgentConnectors} />}
+              />
+              <Route
+                path="/settings/agent-connectors/:connector"
+                element={<ManagerRoute Component={AgentConnectorSetup} />}
+              />              
 
               {/* Onboarding Flow */}
               <Route path="/onboarding" element={<OnboardingFlow />} />

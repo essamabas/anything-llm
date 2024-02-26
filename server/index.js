@@ -90,6 +90,10 @@ app.all("*", function (_, response) {
   response.sendStatus(404);
 });
 
+if (typeof process.env.NODE_EXTRA_CA_CERTS !== 'undefined') {
+  console.log(`[Server Boot]: Found NODE_EXTRA_CA_CERTS ${process.env.NODE_EXTRA_CA_CERTS}`);
+}
+
 if (!!process.env.ENABLE_HTTPS) {
   bootSSL(app, process.env.SERVER_PORT || 3001);
 } else {
