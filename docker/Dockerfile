@@ -73,6 +73,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
     apt-get update && \
+	apt-get install -yq python3 && \
+	apt-get install -yq python3-flask && \
+	apt-get install -yq python3-pip && \
+	pip install --upgrade --quiet  atlassian-python-api && \
+	pip install --upgrade --quiet  langchain && \
+	pip install --upgrade --quiet  langchain-openai && \
     apt-get install -yq --no-install-recommends nodejs && \
     curl -LO https://github.com/yarnpkg/yarn/releases/download/v1.22.19/yarn_1.22.19_all.deb \
         && dpkg -i yarn_1.22.19_all.deb \
@@ -84,6 +90,7 @@ RUN groupadd -g $ARG_GID anythingllm && \
     mkdir -p /app/frontend/ /app/server/ /app/collector/ && chown -R anythingllm:anythingllm /app
 
 # Copy docker helper scripts
+COPY ./docker/rest_client.py /usr/local/lib/python3.10/dist-packages/atlassian
 COPY ./docker/docker-entrypoint.sh /usr/local/bin/
 COPY ./docker/docker-healthcheck.sh /usr/local/bin/
 COPY --chown=anythingllm:anythingllm ./docker/.env.example /app/server/.env

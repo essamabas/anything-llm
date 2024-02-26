@@ -23,10 +23,12 @@ services:
       - "../server/storage:/app/server/storage"
       - "../collector/hotdir/:/app/collector/hotdir"
       - "../collector/outputs/:/app/collector/outputs"
+      - "../agent/:/app/agent"
       - "../frontend/:/app/frontend"
     user: "${UID:-1000}:${GID:-1000}"
     ports:
       - "3001:3001"
+      - "3002:3002"
     env_file:
       - .env
     networks:

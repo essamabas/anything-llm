@@ -15,43 +15,94 @@ const {
   flexUserRoleValid,
 } = require("../utils/middleware/multiUserProtected");
 
-function chatEndpoints(app) {
-  if (!app) return;
+function agentMode(response, message) {
+	fetch("http://127.0.0.1:3002/api/v1/request", {
+	  method: "POST",
+	  body: JSON.stringify({
+		agentRequest: message,
+	  }),
+	  headers: {
+		"Content-Type": "application/json"
+	  }
+	})
+	.then(async (agentResponse) => {
+		a = await agentResponse.json();
+		console.log("received agent response");
+		console.log(a);
+		writeResponseChunk(response, {
+		  id: uuidv4(),
+		  type: "textResponse",
+		  textResponse: JSON.stringify(a),
+		  sources: [],
+		  close: true,
+		  error: null,
+		});
+	});
+	/*
+	agentResponse = await fetch("http://127.0.0.1:3002/api/v1/request", {
+	  method: "POST",
+	  body: JSON.stringify({
+		agentRequest: message,
+	  }),
+	  headers: {
+		"Content-Type": "application/json"
+	  }
+	})
 
-  app.post(
-    "/workspace/:slug/stream-chat",
-    [validatedRequest, flexUserRoleValid([ROLES.all])],
-    async (request, response) => {
-      try {
-        const user = await userFromSession(request, response);
-        const { slug } = request.params;
-        const { message, mode = "query", agent } = reqBody(request);
-		console.log(reqBody(request));
-		console.log("agent is " + agent);
+	console.log(agentResponse.json());
+	writeResponseChunk(response, {
+	  id: uuidv4(),
+	  type: "textResponse",
+	  textResponse: agentResponse.json(),
+	  sources: [],
+	  close: true,
+	  error: null,
+	});
+    return;
+ } catch(e) {
+	writeResponseChunk(response, {
+      id: uuidv4(),
+      type: "abort",
+      textResponse: null,
+      sources: [],
+      close: true,
+      error: e,
+    });
+	return;
+  }
+	*/
+}
 
-		if( agent == 'jira' ) {
-			writeResponseChunk(response, {
-              id: uuidv4(),
-			  type: "textResponse",
-			  textResponse: "Heeeeeelllooo this message was intercepted and Jira agent is about to answer. COMMING SOON",
-			  sources: [],
-			  close: true,
-			  error: null,
-			});
-			return;
-		}
+async function chatEndpoints(app) {
+if (!app) return;
 
-        const workspace = multiUserMode(response)
-          ? await Workspace.getWithUser(user, { slug })
-          : await Workspace.get({ slug });
+app.post(
+"/workspace/:slug/stream-chat",
+[validatedRequest, flexUserRoleValid([ROLES.all])],
+async (request, response) => {
+  try {
+	const user = await userFromSession(request, response);
+	const { slug } = request.params;
+	const { message, mode = "query", agent } = reqBody(request);
+	console.log(reqBody(request));
+	console.log("agent is " + agent);
 
-        if (!workspace) {
-          response.sendStatus(400).end();
-          return;
-        }
+	if( agent == 'jira' ) {
+	  agentMode(response, message)
+	  return
+	}
 
-        if (!message?.length || !VALID_CHAT_MODE.includes(mode)) {
-          response.status(400).json({
+	const workspace = multiUserMode(response)
+	  ? await Workspace.getWithUser(user, { slug })
+	  : await Workspace.get({ slug });
+
+	if (!workspace) {
+	  response.sendStatus(400).end();
+	  return;
+	}
+
+	if (!message?.length || !VALID_CHAT_MODE.includes(mode)) {
+	  response.status(400).json({
             id: uuidv4(),
             type: "abort",
             textResponse: null,
