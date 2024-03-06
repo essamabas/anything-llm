@@ -67,6 +67,7 @@ export default function Sidebar() {
 
 
  		  {/* Jira Agent */}
+		  {/*
           <div className="flex gap-x-2 items-center justify-between" >
             <a
               className={`
@@ -91,6 +92,7 @@ export default function Sidebar() {
               </div>
             </a>
           </div>
+		  */}
 
 
 
