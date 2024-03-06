@@ -32,7 +32,7 @@ function agentMode(response, message) {
 		writeResponseChunk(response, {
 		  id: uuidv4(),
 		  type: "textResponse",
-		  textResponse: JSON.stringify(a),
+		  textResponse: a['output'],
 		  sources: [],
 		  close: true,
 		  error: null,
