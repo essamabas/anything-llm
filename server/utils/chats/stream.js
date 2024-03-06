@@ -189,44 +189,49 @@ async function streamEmptyEmbeddingChat({
 
   // If streaming is not explicitly enabled for connector
   // we do regular waiting of a response and send a single chunk.
-  if (LLMConnector.streamingEnabled() !== true) {
-    console.log(
-      `\x1b[31m[STREAMING DISABLED]\x1b[0m Streaming is not available for ${LLMConnector.constructor.name}. Will use regular chat method.`
-    );
-    completeText = await LLMConnector.sendChat(
-      chatHistory,
-      message,
-      workspace,
-      rawHistory
-    );
-    writeResponseChunk(response, {
-      uuid,
-      type: "textResponseChunk",
-      textResponse: completeText,
-      sources: [],
-      close: true,
-      error: false,
-    });
-  } else {
-    const stream = await LLMConnector.streamChat(
-      chatHistory,
-      message,
-      workspace,
-      rawHistory
-    );
-    completeText = await handleStreamResponses(response, stream, {
-      uuid,
-      sources: [],
-    });
-  }
+  try {
+    if (LLMConnector.streamingEnabled() !== true) {
+      console.log(
+        `\x1b[31m[STREAMING DISABLED]\x1b[0m Streaming is not available for ${LLMConnector.constructor.name}. Will use regular chat method.`
+      );
+      completeText = await LLMConnector.sendChat(
+        chatHistory,
+        message,
+        workspace,
+        rawHistory
+      );
 
-  await WorkspaceChats.new({
-    workspaceId: workspace.id,
-    prompt: message,
-    response: { text: completeText, sources: [], type: "chat" },
-    user,
-  });
-  return;
+      writeResponseChunk(response, {
+        uuid,
+        type: "textResponseChunk",
+        textResponse: completeText,
+        sources: [],
+        close: true,
+        error: false,
+      });
+    } else {
+      const stream = await LLMConnector.streamChat(
+        chatHistory,
+        message,
+        workspace,
+        rawHistory
+      );
+      completeText = await handleStreamResponses(response, stream, {
+        uuid,
+        sources: [],
+      });
+    }
+
+    await WorkspaceChats.new({
+      workspaceId: workspace.id,
+      prompt: message,
+      response: { text: completeText, sources: [], type: "chat" },
+      user,
+    });
+    return;
+  } catch (e) {
+	console.log(e);
+  }
 }
 
 // TODO: Refactor this implementation
@@ -388,36 +393,49 @@ function handleStreamResponses(response, stream, responseProps) {
   if (!stream.hasOwnProperty("data")) {
     return new Promise(async (resolve) => {
       let fullText = "";
-      for await (const chunk of stream) {
-        if (chunk === undefined)
-          throw new Error(
-            "Stream returned undefined chunk. Aborting reply - check model provider logs."
-          );
+	  try {
+        for await (const chunk of stream) {
+          if (chunk === undefined)
+            throw new Error(
+              "Stream returned undefined chunk. Aborting reply - check model provider logs."
+            );
 
-        const content = chunk.hasOwnProperty("content") ? chunk.content : chunk;
-        fullText += content;
+          const content = chunk.hasOwnProperty("content") ? chunk.content : chunk;
+          fullText += content;
+          writeResponseChunk(response, {
+            uuid,
+            sources: [],
+            type: "textResponseChunk",
+            textResponse: content,
+            close: false,
+            error: false,
+          });
+        }
+
         writeResponseChunk(response, {
           uuid,
-          sources: [],
+          sources,
           type: "textResponseChunk",
-          textResponse: content,
-          close: false,
+          textResponse: "",
+          close: true,
           error: false,
         });
-      }
-
-      writeResponseChunk(response, {
-        uuid,
-        sources,
-        type: "textResponseChunk",
-        textResponse: "",
-        close: true,
-        error: false,
-      });
-      resolve(fullText);
+        resolve(fullText);
+	  } catch (e) {
+		textResponse = "Couldn't connect to LLM-Server. Please choose a different LLM Provider";
+        writeResponseChunk(response, {
+          uuid,
+          sources,
+          type: "abort",
+          textResponse: null,
+          close: true,
+          error: textResponse,
+        });
+		resolve(textResponse);
+	  }
     });
   }
-
+  
   return new Promise((resolve) => {
     let fullText = "";
     let chunk = "";
