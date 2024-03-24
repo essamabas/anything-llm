@@ -122,7 +122,7 @@ export default function App() {
                 element={<ManagerRoute Component={AgentConnectors} />}
               />
               <Route
-                path="/settings/agent-connectors/:connector"
+                path="/settings/agent-connectors/:agentConnector"
                 element={<ManagerRoute Component={AgentConnectorSetup} />}
               />              
 
