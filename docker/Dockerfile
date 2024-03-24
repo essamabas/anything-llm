@@ -90,7 +90,6 @@ RUN groupadd -g $ARG_GID anythingllm && \
     mkdir -p /app/frontend/ /app/server/ /app/collector/ && chown -R anythingllm:anythingllm /app
 
 # Copy docker helper scripts
-COPY ./docker/rest_client.py /usr/local/lib/python3.10/dist-packages/atlassian
 COPY ./docker/docker-entrypoint.sh /usr/local/bin/
 COPY ./docker/docker-healthcheck.sh /usr/local/bin/
 COPY --chown=anythingllm:anythingllm ./docker/.env.example /app/server/.env
