@@ -85,6 +85,7 @@ async function ollamaAIModels(basePath = null) {
     return { models: [], error: "Not a valid URL." };
   }
 
+  console.log(`[OllamaAIModels]: URL: ${url}/api/tags`);
   const models = await fetch(`${url}/api/tags`)
     .then((res) => {
       if (!res.ok)

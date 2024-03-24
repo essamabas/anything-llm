@@ -7,11 +7,14 @@ class NativeEmbedder {
   constructor() {
     // Model Card: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
     this.model = "Xenova/all-MiniLM-L6-v2";
+    
     this.cacheDir = path.resolve(
       process.env.STORAGE_DIR
         ? path.resolve(process.env.STORAGE_DIR, `models`)
         : path.resolve(__dirname, `../../../storage/models`)
     );
+    console.log(`[Native Embedded]: STORAGE_DIR ${process.env.STORAGE_DIR}`);
+    console.log(`[Native Embedded]: cacheDir ${this.cacheDir}`);
     this.modelPath = path.resolve(this.cacheDir, "Xenova", "all-MiniLM-L6-v2");
 
     // Limit of how many strings we can process in a single pass to stay with resource or network limits

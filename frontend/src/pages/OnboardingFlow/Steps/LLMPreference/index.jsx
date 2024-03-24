@@ -8,7 +8,7 @@ import OllamaLogo from "@/media/llmprovider/ollama.png";
 import LMStudioLogo from "@/media/llmprovider/lmstudio.png";
 import LocalAiLogo from "@/media/llmprovider/localai.png";
 import TogetherAILogo from "@/media/llmprovider/togetherai.png";
-import ContiIcon from "@/media/logo/anything-llm-icon.png";
+import ContiIcon from "@/media/logo/conti-ira-icon.png";
 import MistralLogo from "@/media/llmprovider/mistral.jpeg";
 import OpenAiOptions from "@/components/LLMSelection/OpenAiOptions";
 import AzureAiOptions from "@/components/LLMSelection/AzureAiOptions";
