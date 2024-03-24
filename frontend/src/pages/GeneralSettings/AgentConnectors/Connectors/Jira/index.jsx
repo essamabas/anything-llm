@@ -28,15 +28,14 @@ export default function JiraConnectorSetup() {
     try {
       setLoading(true);
       showToast(
-        "Fetching all pages in Space - this may take a while.",
+        "Updating.",
         "info",
         { clear: true, autoClose: false }
       );
-      const { data, error } = await System.dataConnectors.Confluence.collect({
-        baseUrl: form.get("baseUrl"),
-        spaceKey: form.get("spaceKey"),
-        accessToken: form.get("accessToken"),
-      });
+
+	  var data = {  };
+      for (var [key, value] of form.entries()) data[key] = value;
+      const { error } = await System.updateSystem(data);
 
       if (!!error) {
         showToast(error, "error", { clear: true });
@@ -45,9 +44,7 @@ export default function JiraConnectorSetup() {
       }
 
       showToast(
-        `${data.files} ${pluralize("file", data.files)} collected from ${
-          data.author
-        }/${data.baseUrl}:${data.spaceKey}. Output folder is ${data.destination}.`,
+		"Connection parameter written successfully",
         "success",
         { clear: true }
       );
@@ -72,21 +69,22 @@ export default function JiraConnectorSetup() {
         <div className="flex w-full">
           <div className="flex flex-col w-full px-1 md:px-20 md:py-12 py-16">
             <div className="flex w-full gap-x-4 items-center  pb-6 border-white border-b-2 border-opacity-10">
-              <img src={image} alt="Confluence" className="rounded-lg h-16 w-16" />
+              <img src={image} alt="Jira logo" className="rounded-lg h-16 w-16" />
               <div className="w-full flex flex-col gap-y-1">
                 <div className="items-center flex gap-x-4">
                   <p className="text-2xl font-semibold text-white">
-                    Import Confluence Space
+                   	Setup Agent Connections 
                   </p>
                 </div>
                 <p className="text-sm font-base text-white text-opacity-60">
-                  Import all pages from a public or private Confluence Space
-                  and have its information available in your workspace.
+				  Create the connection to external services in order to
+				  query them in your workspace.
                 </p>
               </div>
             </div>
 
             <form className="w-full" onSubmit={handleSubmit}>
+			  {/*
               {!accessToken && (
                 <div className="flex flex-col gap-y-1 py-4 ">
                   <div className="flex flex-col w-fit gap-y-2 bg-blue-600/20 rounded-lg px-4 py-2">
@@ -117,23 +115,24 @@ export default function JiraConnectorSetup() {
                   </div>
                 </div>
               )}
+			  */}
 
               <div className="w-full flex flex-col py-2">
                 <div className="w-full flex items-center gap-4">
                   <div className="flex flex-col w-60">
                     <div className="flex flex-col gap-y-1 mb-4">
                       <label className="text-white text-sm font-semibold block">
-                        Confluence Base URL
+                        Jira Base URL
                       </label>
                       <p className="text-xs text-zinc-300">
-                        Url of the Confluence Base URL wish to collect.
+                        Url of the Jira server to connect to.
                       </p>
                     </div>
                     <input
                       type="url"
-                      name="baseUrl"
+                      name="JiraServer"
                       className="bg-zinc-900 text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white block w-full p-2.5"
-                      placeholder="https://confluence.auto.continental.cloud/"
+                      placeholder="https://jira.auto.continental.cloud/"
                       required={true}
                       autoComplete="off"
                       onChange={(e) => setbaseUrl(e.target.value)}
@@ -144,17 +143,17 @@ export default function JiraConnectorSetup() {
                   <div className="flex flex-col w-60">
                     <div className="flex flex-col gap-y-1 mb-4">
                       <label className="text-white text-sm block flex gap-x-2 items-center">
-                        <p className="font-semibold ">Confluence Space Key</p>{" "}
+                        <p className="font-semibold ">Jira User name</p>{" "}
                       </label>
                       <p className="text-xs text-zinc-300 flex gap-x-2">
-                        Confluence Space Key.
+                        Jira Username.
                       </p>
                     </div>
                     <input
                       type="text"
-                      name="spaceKey"
+                      name="JiraUser"
                       className="bg-zinc-900 text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white block w-full p-2.5"
-                      placeholder="department0443"
+                      placeholder="uidXXXXX"
                       required={true}
                       autoComplete="off"
                       spellCheck={false}
@@ -165,17 +164,17 @@ export default function JiraConnectorSetup() {
                   <div className="flex flex-col w-60">
                     <div className="flex flex-col gap-y-1 mb-4">
                       <label className="text-white text-sm block flex gap-x-2 items-center">
-                        <p className="font-semibold ">Confluence Access Token</p>{" "}
+                        <p className="font-semibold ">Jira Password</p>{" "}
                       </label>
                       <p className="text-xs text-zinc-300 flex gap-x-2">
-                        Personal Access Token.
+                       Jira Password.
                       </p>
                     </div>
                     <input
-                      type="text"
-                      name="accessToken"
+                      type="password"
+                      name="JiraPassword"
                       className="bg-zinc-900 text-white placeholder-white placeholder-opacity-60 text-sm rounded-lg focus:border-white block w-full p-2.5"
-                      placeholder="confluence_pat_1234_abcdefg"
+                      placeholder="secret"
                       required={true}
                       autoComplete="off"
                       spellCheck={false}
@@ -192,16 +191,8 @@ export default function JiraConnectorSetup() {
                   disabled={loading}
                   className="mt-2 text-lg w-fit border border-slate-200 px-4 py-1 rounded-lg text-slate-200 items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 disabled:bg-slate-200 disabled:text-slate-800"
                 >
-                  {loading
-                    ? "Collecting files..."
-                    : "Collect all pages from Confluence Space"}
+				 Save connection
                 </button>
-                {loading && (
-                  <p className="text-xs text-zinc-300">
-                    Once complete, all pages will be available for embedding
-                    into workspaces in the document picker.
-                  </p>
-                )}
               </div>
             </form>
           </div>

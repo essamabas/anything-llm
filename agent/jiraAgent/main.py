@@ -24,6 +24,9 @@ def executeRequest(req):
     name = os.environ['JIRA_USERNAME']
     url = os.environ['JIRA_INSTANCE_URL']
     llm = ChatOpenAI(temperature=0, streaming=True, max_tokens=1000, model_name="gpt-3.5-turbo-16k")
+    print(token)
+    print(name)
+    print(url)
 
     jira = JiraAPIWrapper(jira_api_token=token, jira_instance_url=url, jira_username=name)
     toolkit = JiraToolkit.from_jira_api_wrapper(jira)
@@ -36,7 +39,6 @@ def executeRequest(req):
 
 @app.route('/api/v1/request', methods = ['POST'])
 def requestHandler():
-    print('yeah')
     content_type = request.headers.get('Content-Type')
     print(request.headers)
     if (content_type == 'application/json'):
