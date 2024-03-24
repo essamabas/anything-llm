@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const TITLE = "Embedding Preference";
 const DESCRIPTION =
-  "Conti. IRA can work with many embedding models. This will be the model which turns documents into vectors.";
+  "AI Octopus can work with many embedding models. This will be the model which turns documents into vectors.";
 
 export default function EmbeddingPreference({
   setHeader,

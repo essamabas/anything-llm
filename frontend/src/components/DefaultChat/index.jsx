@@ -61,7 +61,7 @@ export default function DefaultChatContainer() {
             <span
               className={`whitespace-pre-line text-white font-normal text-sm md:text-sm flex flex-col gap-y-1 mt-2`}
             >
-              Welcome to Conti. IRA. 
+              Welcome to AI Octopus. 
               The Tool is based on an open-source AI tool by Mintplex Labs that turns anything into a trained chatbot you can
               query and chat with.
             </span>
@@ -83,7 +83,7 @@ export default function DefaultChatContainer() {
             <span
               className={`whitespace-pre-line text-white font-normal text-sm md:text-sm flex flex-col gap-y-1 mt-2`}
             >
-              Conti. IRA is the easiest way to put powerful AI products like
+              AI Octopus is the easiest way to put powerful AI products like
               OpenAi, GPT-4, LangChain, PineconeDB, ChromaDB, and other services
               together in a neat package with no fuss to increase your
               productivity by 100x.
@@ -106,12 +106,12 @@ export default function DefaultChatContainer() {
               <span
                 className={`whitespace-pre-line text-white font-normal text-sm md:text-sm flex flex-col gap-y-1 mt-2`}
               >
-                Conti. IRA can run totally locally on your machine with little
+                AI Octopus can run totally locally on your machine with little
                 overhead you wont even notice it's there! No GPU needed. Cloud
                 and on-premises installation is available as well.
                 <br />
                 The AI tooling ecosystem gets more powerful everyday.
-                Conti. IRA makes it easy to use.
+                AI Octopus makes it easy to use.
               </span>
               <a
                 href={paths.github()}
@@ -234,10 +234,10 @@ export default function DefaultChatContainer() {
             <span
               className={`whitespace-pre-line text-white font-normal text-sm md:text-sm flex flex-col gap-y-1 mt-2`}
             >
-              Conti. IRA is more than a smarter Dropbox.
+              AI Octopus is more than a smarter Dropbox.
               <br />
               <br />
-              Conti. IRA offers two ways of talking with your data:
+              AI Octopus offers two ways of talking with your data:
               <br />
               <br />
               <i>Query:</i> Your chats will return data or inferences found with
@@ -305,7 +305,7 @@ export default function DefaultChatContainer() {
                   className="mt-5 w-fit transition-all duration-300 border border-slate-200 px-4 py-2 rounded-lg text-white text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 focus:ring-gray-800"
                 >
                   <EnvelopeSimple className="h-4 w-4" />
-                  <p>Contact Conti. IRA</p>
+                  <p>Contact AI Octopus</p>
                 </a>
               </div>
             </div>
