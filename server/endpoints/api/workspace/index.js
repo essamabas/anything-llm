@@ -596,8 +596,10 @@ function apiWorkspaceEndpoints(app) {
    */
       try {
         const { slug } = request.params;
-        const { message, mode = "query" } = reqBody(request);
+        const { message, mode = "query", agent } = reqBody(request);
         const workspace = await Workspace.get({ slug });
+		console.log(reqBody(request));
+		console.info("agent is set to: ");
 
         if (!workspace) {
           response.status(400).json({

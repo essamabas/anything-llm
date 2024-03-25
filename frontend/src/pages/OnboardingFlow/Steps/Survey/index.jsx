@@ -4,8 +4,8 @@ import { CheckCircle } from "@phosphor-icons/react";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const TITLE = "Welcome to Conti. IRA";
-const DESCRIPTION = "Help us make Conti. IRA built for your needs. Optional.";
+const TITLE = "Welcome to AI Octopus";
+const DESCRIPTION = "Help us make AI Octopus built for your needs. Optional.";
 
 async function sendQuestionnaire({ email, useCase, comment }) {
   if (import.meta.env.DEV) return;
@@ -111,7 +111,7 @@ export default function Survey({ setHeader, setForwardBtn, setBackBtn }) {
             className="text-white text-base font-medium"
             htmlFor="use_case"
           >
-            What will you use Conti. IRA for?{" "}
+            What will you use AI Octopus for?{" "}
           </label>
           <div className="mt-2 gap-y-3 flex flex-col">
             <label

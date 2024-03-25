@@ -234,6 +234,20 @@ const KEY_MAPPING = {
     envKey: "JWT_SECRET",
     checks: [requiresForceMode],
   },
+
+  // Jira Agent
+  JiraServer: {
+  	envKey: "JIRA_INSTANCE_URL",
+    checks: [isValidURL],
+  },
+  JiraUser: {
+  	envKey: "JIRA_USERNAME",
+    checks: [isNotEmpty],
+  },
+  JiraPassword: {
+  	envKey: "JIRA_API_TOKEN",
+    checks: [isNotEmpty],
+  },
 };
 
 function isNotEmpty(input = "") {

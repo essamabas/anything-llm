@@ -170,7 +170,7 @@ export default function GeneralEmbeddingPreference() {
                   <br />
                   Embedding is the process of turning text into vectors. These
                   credentials are required to turn your files and prompts into a
-                  format which Conti. IRA can use to process.
+                  format which AI Octopus can use to process.
                 </p>
               </div>
 

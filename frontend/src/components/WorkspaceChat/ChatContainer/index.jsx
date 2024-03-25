@@ -71,11 +71,13 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
         return false;
       }
 
+      const STORAGE_AGENT_KEY = `agent_${workspace.slug}`;
+
       await Workspace.streamChat(
         workspace,
         promptMessage.userMessage,
-        window.localStorage.getItem(`workspace_chat_mode_${workspace.slug}`) ??
-          "chat",
+        window.localStorage.getItem(`workspace_chat_mode_${workspace.slug}`) ??  "chat",
+        window.localStorage.getItem(`agent_${workspace.slug}`) ??  "none",
         (chatResult) =>
           handleChat(
             chatResult,

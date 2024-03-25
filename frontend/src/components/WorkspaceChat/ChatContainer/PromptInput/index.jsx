@@ -1,5 +1,6 @@
 import {
   Chats,
+  Person,
   CircleNotch,
   Gear,
   PaperPlaneRight,
@@ -107,6 +108,7 @@ export default function PromptInput({
                   />
                 )}
                 <ChatModeSelector workspace={workspace} />
+                <AgentModeSelector workspace={workspace} />
                 <SlashCommandsButton
                   showing={showSlashCommand}
                   setShowSlashCommand={setShowSlashCommand}
@@ -132,6 +134,7 @@ function ChatModeSelector({ workspace }) {
   const [delayHandler, setDelayHandler] = useState(null);
 
   function toggleMode() {
+    console.log(STORAGE_KEY);
     const newChatMode = chatMode === "chat" ? "query" : "chat";
     setChatMode(newChatMode);
     window.localStorage.setItem(STORAGE_KEY, newChatMode);
@@ -168,6 +171,58 @@ function ChatModeSelector({ workspace }) {
       </div>
       <ModeIcon
         onClick={toggleMode}
+        className="w-7 h-7 text-white/60 hover:text-white cursor-pointer"
+        weight="fill"
+      />
+    </div>
+  );
+}
+
+function AgentModeSelector({ workspace }) {
+  const STORAGE_AGENT_KEY = `agent_${workspace.slug}`;
+  const [agentMode, setAgentMode] = useState(
+    window.localStorage.getItem(STORAGE_AGENT_KEY) ?? `agent_${workspace.slug}`
+  );
+  const [showToolTip, setShowTooltip] = useState(false);
+  const [delayHandler, setDelayHandler] = useState(null);
+
+  function toggleAgentMode() {
+    const newAgentMode = agentMode === "jira" ? "none" : "jira";
+    setAgentMode(newAgentMode);
+    window.localStorage.setItem(STORAGE_AGENT_KEY, newAgentMode);
+  }
+
+  function handleMouseEnter() {
+    if (isMobile) return false;
+    setDelayHandler(
+      setTimeout(() => {
+        setShowTooltip(true);
+      }, 700)
+    );
+  }
+
+  const cleanupTooltipListener = () => {
+    clearTimeout(delayHandler);
+    setShowTooltip(false);
+  };
+
+  const ModeIcon = agentMode === "jira" ? Person : Chats;
+  return (
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={cleanupTooltipListener}
+    >
+      <div
+        className={`opacity-${
+          showToolTip ? 1 : 0
+        } pointer-events-none transition-all duration-300 tip absolute bottom-10 z-99 left-0 bg-white/50 text-gray-200 text-xs p-1.5 rounded shadow-lg whitespace-nowrap`}
+      >
+        You are currently in {agentMode} mode. Click to switch to{" "}
+        {agentMode === "jira" ? "agent" : "none"} mode.
+      </div>
+      <ModeIcon
+        onClick={toggleAgentMode}
         className="w-7 h-7 text-white/60 hover:text-white cursor-pointer"
         weight="fill"
       />

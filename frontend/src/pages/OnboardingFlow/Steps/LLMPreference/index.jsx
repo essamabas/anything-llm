@@ -28,7 +28,7 @@ import TogetherAiOptions from "@/components/LLMSelection/TogetherAiOptions";
 
 const TITLE = "LLM Preference";
 const DESCRIPTION =
-  "Conti. IRA can work with many LLM providers. This will be the service which handles chatting.";
+  "AI Octopus can work with many LLM providers. This will be the service which handles chatting.";
 
 export default function LLMPreference({
   setHeader,

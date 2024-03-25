@@ -4,16 +4,16 @@ import { useParams } from "react-router-dom";
 const Jira = lazy(() => import("./Jira"));
 
 const CONNECTORS = {
-  Jira: Jira,
+  jira: Jira,
 };
 
 export default function AgentConnectorSetup() {
-  const { connector } = useParams();
-  if (!connector || !CONNECTORS.hasOwnProperty(connector)) {
-    window.location = paths.home();
+  const { agentConnector } = useParams();
+  if (!agentConnector || !CONNECTORS.hasOwnProperty(agentConnector)) {
+    //window.location = paths.home();
     return;
   }
 
-  const Page = CONNECTORS[connector];
+  const Page = CONNECTORS[agentConnector];
   return <Page />;
 }

@@ -1,6 +1,7 @@
 import { API_BASE, AUTH_TIMESTAMP, fullApiUrl } from "@/utils/constants";
 import { baseHeaders } from "@/utils/request";
 import DataConnector from "./dataConnector";
+import Agent from "./agent";
 import AgentConnector from "./agentConnector";
 
 const System = {
@@ -427,6 +428,7 @@ const System = {
       });
   },
   dataConnectors: DataConnector,
+  Agents: Agent,
   agentConnectors: AgentConnector,
 };
 
